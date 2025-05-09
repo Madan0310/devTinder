@@ -2,7 +2,23 @@ const express = require("express");
 
 const app = express();
 
-app.get("/user", (req, res) => {
+// Example for query parameters and dynamic routing
+
+/* app.get("/user", (req, res) => {
+  const { userid, password } = req.query;
+  console.log(req.query);
+  res.send({ userId: userid, password: password });
+}); */
+
+app.get("/user/:userid/:password", (req, res) => {
+  const { userid, password } = req.params;
+  console.log(req.params);
+  res.send({ userId: userid, password: password });
+});
+
+// Examples for HTTP methods
+
+/* app.get("/user", (req, res) => {
   res.send({ firstName: "Madanmohan", lastName: "Komatireddy" });
 });
 
@@ -12,7 +28,7 @@ app.post("/user", (req, res) => {
 
 app.delete("/user", (req, res) => {
   res.send("Data deleted successfully!!");
-});
+}); */
 
 // app.use("/test", (req, res) => {
 //   res.send("Hello from test page");
