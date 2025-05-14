@@ -1,0 +1,19 @@
+- Initialize git
+- .gitignore
+- Create a remote repo on github
+- Push all code to remote origin
+- Play with routes and route extensions ex. /hello, / , /hello/2, /xyz
+- Order of the routes matter a lot
+- Install Postman app and make a workspace/collection > test Api call
+- Write logic to handle GET, POST, PUT, PATCH, DELETE API calls and test them on Postman
+- Explore routing and use of ?, +, (), \* in the routes
+- Use of regex in routes /a/, /.\*fly$/
+- Reading the query params in the routes
+- Reading the dynamic routes
+
+- Multiple Route Handlers - Play with the code
+- next()
+- next function and errors along with res.send()
+- app.use("/route", rh1, [rh2, rh3, rh4], rh5)
+- What is a middleware
+- How express js basically handles requests behind the scences like middleware chains
