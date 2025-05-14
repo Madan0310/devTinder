@@ -4,27 +4,33 @@ const { adminAuth, userAuth } = require("./middilewares/auth");
 
 const app = express();
 
-// Handle Auth Middleware for all request GET, POST, PUT etc..
-app.use("/admin", adminAuth);
-// app.use("/user", userAuth);
+// Examples for HTTP methods
 
-app.get("/admin/getAllData", (req, res, next) => {
-  res.send("Admin data sent successfully!!");
+/* app.get("/user", (req, res) => {
+  res.send({ firstName: "Madanmohan", lastName: "Komatireddy" });
 });
 
-app.get("/admin/getActiveData", (req, res, next) => {
-  res.send("Active Admin data sent successfully!!");
+app.post("/user", (req, res) => {
+  res.send("Data successfully saved to the database!!");
 });
 
-app.get("/user/login", (req, res, next) => {
-  res.send("User logged in successfully!!");
-});
+app.delete("/user", (req, res) => {
+  res.send("Data deleted successfully!!");
+}); */
 
-app.get("/user/getUserData", userAuth, (req, res, next) => {
-  res.send("User data sent successfully!!");
-});
+// app.use("/test", (req, res) => {
+//   res.send("Hello from test page");
+// });
 
-// Routing and Request Handlers
+// app.use("/hello", (req, res) => {
+//   res.send("Hello hello hello");
+// });
+
+// app.use("/", (req, res) => {
+//   res.send("This is dashboard");
+// });
+
+// ROUTING AND REQUEST HANDLERS
 
 // app.get("/user", rh1, rh2, rh3, rh4, rh5);
 // app.get("/user", [rh1, rh2, rh3, rh4, rh5]);
@@ -62,31 +68,45 @@ app.get("/user/getUserData", userAuth, (req, res, next) => {
   res.send({ userId: userid, password: password });
 }); */
 
-// Examples for HTTP methods
+// Handle Auth Middleware for all request GET, POST, PUT etc.. - MIDDLEWARES
+/* app.use("/admin", adminAuth);
+// app.use("/user", userAuth);
 
-/* app.get("/user", (req, res) => {
-  res.send({ firstName: "Madanmohan", lastName: "Komatireddy" });
+app.get("/admin/getAllData", (req, res, next) => {
+  res.send("Admin data sent successfully!!");
 });
 
-app.post("/user", (req, res) => {
-  res.send("Data successfully saved to the database!!");
+app.get("/admin/getActiveData", (req, res, next) => {
+  res.send("Active Admin data sent successfully!!");
 });
 
-app.delete("/user", (req, res) => {
-  res.send("Data deleted successfully!!");
+app.get("/user/login", (req, res, next) => {
+  res.send("User logged in successfully!!");
+});
+
+app.get("/user/getUserData", userAuth, (req, res, next) => {
+  res.send("User data sent successfully!!");
 }); */
 
-// app.use("/test", (req, res) => {
-//   res.send("Hello from test page");
-// });
+// ERROR HANDLERS
 
-// app.use("/hello", (req, res) => {
-//   res.send("Hello hello hello");
-// });
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    res.status(500).send("Something went wrong");
+  }
+});
 
-// app.use("/", (req, res) => {
-//   res.send("This is dashboard");
-// });
+app.get("/getUserData", (req, res, next) => {
+  // connect to DB to get the data
+  throw new Error("Unknow error");
+  res.send("User data sent successfully!!");
+});
+
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    res.status(500).send("Something went wrong");
+  }
+});
 
 app.listen(3000, () => {
   console.log("Server is successfully listening on port 3000...");
