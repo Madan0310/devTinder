@@ -98,8 +98,12 @@ app.use("/", (err, req, res, next) => {
 
 app.get("/getUserData", (req, res, next) => {
   // connect to DB to get the data
-  throw new Error("Unknow error");
-  res.send("User data sent successfully!!");
+  try {
+    throw new Error("Unknow error");
+    res.send("User data sent successfully!!");
+  } catch (err) {
+    res.status(500).send("Something went wrong");
+  }
 });
 
 app.use("/", (err, req, res, next) => {
