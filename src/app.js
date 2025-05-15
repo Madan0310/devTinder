@@ -1,10 +1,28 @@
 const express = require("express");
+const connectDB = require("./config/database");
+const User = require("./models/user");
 
-const { adminAuth, userAuth } = require("./middilewares/auth");
+// const { adminAuth, userAuth } = require("./middilewares/auth");
 
 const app = express();
 
-// Examples for HTTP methods
+app.post("/signup", async (req, res) => {
+  //Creating a new instance of the User model
+  const user = new User({
+    firstName: "Madan",
+    lastName: "Komatireddy",
+    emailId: "madan@Komatireddy.com",
+    password: "Madan@123",
+  });
+  try {
+    await user.save();
+    res.send("User created successfully");
+  } catch (e) {
+    res.status(400).send("Bad Request");
+  }
+});
+
+// EXAMPLES FOR HTTP METHODS
 
 /* app.get("/user", (req, res) => {
   res.send({ firstName: "Madanmohan", lastName: "Komatireddy" });
@@ -54,7 +72,7 @@ app.delete("/user", (req, res) => {
   }
 ); */
 
-// Example for query parameters and dynamic routing
+// EXAMPLE FOR QUERY PARAMETERS AND DYNAMIC ROUTING
 
 /* app.get("/user", (req, res) => {
   const { userid, password } = req.query;
@@ -69,6 +87,7 @@ app.delete("/user", (req, res) => {
 }); */
 
 // Handle Auth Middleware for all request GET, POST, PUT etc.. - MIDDLEWARES
+
 /* app.use("/admin", adminAuth);
 // app.use("/user", userAuth);
 
@@ -90,7 +109,7 @@ app.get("/user/getUserData", userAuth, (req, res, next) => {
 
 // ERROR HANDLERS
 
-app.use("/", (err, req, res, next) => {
+/* app.use("/", (err, req, res, next) => {
   if (err) {
     res.status(500).send("Something went wrong");
   }
@@ -110,8 +129,15 @@ app.use("/", (err, req, res, next) => {
   if (err) {
     res.status(500).send("Something went wrong");
   }
-});
+}); */
 
-app.listen(3000, () => {
-  console.log("Server is successfully listening on port 3000...");
-});
+connectDB()
+  .then(() => {
+    console.log("Database connection established!!");
+    app.listen(3000, () => {
+      console.log("Server is successfully listening on port 3000...");
+    });
+  })
+  .catch((err) => {
+    console.log("Database cannot be connected!!");
+  });
