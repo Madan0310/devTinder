@@ -8,8 +8,9 @@ const app = express();
 
 app.use(express.json());
 
-// DATABASE, SCHEMA & MODESL | MONGOOSE
+// DATABASE, SCHEMA & MODELS | MONGOOSE
 // DIVING INTO THE APIs
+// DATA SANITIZATION & SCHEMA VALIDATIONS
 
 // Create user into the database
 app.post("/signup", async (req, res) => {
