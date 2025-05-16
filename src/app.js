@@ -27,7 +27,8 @@ app.post("/signup", async (req, res) => {
     await user.save();
     res.send("User created successfully");
   } catch (e) {
-    res.status(400).send("Bad Request");
+    // console.log("New error:: ", e);
+    res.status(400).send("Bad Request:: " + e.message);
   }
 });
 
