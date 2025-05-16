@@ -53,3 +53,10 @@
 - Data Sanitization - Add API validation for each field
 - Install Validator
 - Expore validator librabry functions and use of Validator functions for Password, email and photo url
+- NEVER TRUST req.body
+
+- Validate data in signup API
+- Install bcrypt package
+- Create passwordHash using bcrypt.hash & save the user with encrypted password
+- Create login API
+- First check email id is present in the DB or not, If email is there then compare entered password with hashed password from DB
