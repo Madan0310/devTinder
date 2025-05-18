@@ -1,14 +1,23 @@
 const express = require("express");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
+
 const connectDB = require("./config/database");
 const User = require("./models/user");
 const { validateSignUpData } = require("./utils/validation");
-const bcrypt = require("bcrypt");
+const { adminAuth, userAuth } = require("./middilewares/auth");
 
-// const { adminAuth, userAuth } = require("./middilewares/auth");
+const authRouter = require("./routes/auth");
+const profileRouter = require("./routes/profile");
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
+
+app.use("/", authRouter);
+app.use("/", profileRouter);
 
 // DATABASE, SCHEMA & MODELS | MONGOOSE
 // DIVING INTO THE APIs
@@ -16,7 +25,7 @@ app.use(express.json());
 // ENCRYPTING PASSWORD
 
 // Create user into the database
-app.post("/signup", async (req, res) => {
+/* app.post("/signup", async (req, res) => {
   try {
     //Validation of data
     validateSignUpData(req);
@@ -24,6 +33,12 @@ app.post("/signup", async (req, res) => {
     // password encryption
     const { firstName, lastName, emailId, password } = req.body;
     const passwordHash = await bcrypt.hash(password, 10);
+
+    const userData = await User.findOne({ emailId: emailId });
+
+    if (userData) {
+      throw new Error("This user already exist");
+    }
 
     //Creating a new instance of the User model
     const user = new User({
@@ -35,13 +50,12 @@ app.post("/signup", async (req, res) => {
     await user.save();
     res.send("User created successfully");
   } catch (e) {
-    // console.log("New error:: ", e);
     res.status(400).send("Error:: " + e.message);
   }
-});
+}); */
 
 //login user
-app.post("/login", async (req, res) => {
+/* app.post("/login", async (req, res) => {
   try {
     const { emailId, password } = req.body;
     const user = await User.findOne({ emailId: emailId });
@@ -51,6 +65,17 @@ app.post("/login", async (req, res) => {
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (isPasswordMatch) {
+      // Create a JWT token
+      const token = await jwt.sign({ _id: user._id }, "DEV@Tinder$0310", {
+        expiresIn: "7d",
+      });
+      console.log(token);
+
+      //Add the token to cookie and send the response back to the user
+      res.cookie("token", token, {
+        expires: new Date(Date.now() + 8 * 3600000),
+      });
+
       res.send("User logged In Successfully!!");
     } else {
       throw new Error("Invalid Credentials"); // throw new Error("Password is not correct!");
@@ -58,7 +83,29 @@ app.post("/login", async (req, res) => {
   } catch (e) {
     res.status(400).send("Error:: " + e.message);
   }
-});
+}); */
+
+// app.get("/profile", userAuth, async (req, res) => {
+//   try {
+//     // below code is not required now because we have added authentication middlware, we handled it over there
+//     /* const cookie = req.cookies;
+//     console.log("cookie", cookie);
+//     const { token } = cookie;
+//     if (!token) {
+//       throw new Error("Invalid Token");
+//     }
+//     const decodedMessage = await jwt.verify(token, "DEV@Tinder$0310");
+//     console.log(decodedMessage);
+//     const { _id } = decodedMessage;
+//     const user = await User.findById(_id);
+//     console.log(user); */
+//     const user = req.user;
+//     res.send(user);
+//   } catch (e) {
+//     res.status(400).send("Error:: " + e.message);
+//   }
+// });
+
 // Get User by emaail
 app.get("/user", async (req, res) => {
   const userEmail = req.body.emailId;

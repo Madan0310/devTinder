@@ -60,3 +60,17 @@
 - Create passwordHash using bcrypt.hash & save the user with encrypted password
 - Create login API
 - First check email id is present in the DB or not, If email is there then compare entered password with hashed password from DB
+
+- Install cookie-parser
+- Send a dummy cookie to the user in login API
+- Create GET /profile API and check if you get the cookie back
+- install jsonwebtoken
+- In login API, after username and password validation, create JWT token with User id and save it into cookie
+- Read the cookies inside your profile API, get the user id from token which is inside cookie. Get the user information with User id.
+- Create userAuth middleware
+- Add userAuth middleware in profile API
+- Set the expiry of jwt token and cookies to 7 days
+
+- Explore Tinder APIs
+- Create a list all API you can think of in Dev Tinder
+- Group multiple routes under respective routes
